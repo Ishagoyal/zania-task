@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # Frontend service
+  frontend:
+    build:
+      context: ./frontend # Path to the frontend Dockerfile
+    container_name: react-frontend
+    ports:
+      - "3000:3000" # Exposing React app on port 3000
+    environment:
+      - REACT_APP_API_URL=http://backend:8080 # URL for API communication
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  # Backend service
+  backend:
+    build:
+      context: ./backend # Path to the backend Dockerfile
+    container_name: node-backend
+    ports:
+      - "8080:8080" # Exposing API on port 8080
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - redis # Optional, if you are using Redis or any other database
+    networks:
+      - app-network
+
+  # Redis service (Optional, if you need caching)
+  redis:
+    image: redis:alpine
+    container_name: redis-db
+    ports:
+      - "6379:6379" # Exposing Redis default port
+    networks:
+      - app-network
+
+  # MSW Worker for mocking the backend API
+  msw:
+    image: node:16 # Use the latest Node.js image
+    container_name: msw-service
+    working_dir: /app
+    build:
+      context: ./msw # Path to the MSW mock service setup
+    ports:
+      - "8081:8080" # This could be the port for API mocking if necessary
+    networks:
+      - app-network
+    command: "npm run start-mock-api" # Command to start MSW mock API
+
+  # Database service (optional, e.g., MongoDB or PostgreSQL)
+  database:
+    image: mongo # Use the appropriate DB image
+    container_name: mongo-db
+    ports:
+      - "27017:27017" # Exposing MongoDB default port
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
