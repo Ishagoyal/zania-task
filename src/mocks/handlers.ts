@@ -3,7 +3,7 @@ import { loadCardsData } from "../services/storage";
 
 const data = loadCardsData();
 export const handlers = [
-  http.get("/api/cards", (resolver) => {
+  http.get("/api/cards", () => {
     return HttpResponse.json(data);
   }),
 ];

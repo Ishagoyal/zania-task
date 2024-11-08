@@ -8,7 +8,7 @@ const CardGrid: React.FC = () => {
   const [overlayImage, setOverlayImage] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/data.json")
+    fetch("/api/cards")
       .then((response) => response.json())
       .then(setData);
   }, []);
