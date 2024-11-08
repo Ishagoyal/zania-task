@@ -8,7 +8,7 @@ const CardGrid: React.FC = () => {
   const [overlayImage, setOverlayImage] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("public/data.json")
+    fetch("/data.json")
       .then((response) => response.json())
       .then(setData);
   }, []);
@@ -16,10 +16,32 @@ const CardGrid: React.FC = () => {
   const handleCardClick = (image: string) => {
     setOverlayImage(image);
   };
+
+  const handleDragStart = (cardIndex: number) => {
+    return (e: React.DragEvent<HTMLDivElement>) => {
+      e.dataTransfer.setData("cardIndex", cardIndex.toString());
+    };
+  };
+
+  const handleDrop = (cardIndex: number) => {
+    return (e: React.DragEvent<HTMLDivElement>) => {
+      const draggedIndex = parseInt(e.dataTransfer.getData("cardIndex"));
+      const updatedData = [...data];
+      const [drageedCard] = updatedData.splice(draggedIndex, 1);
+      updatedData.splice(cardIndex, 0, drageedCard);
+      setData(updatedData);
+    };
+  };
+
   return (
     <div className="card-grid">
       {data.map((item, index) => (
-        <div>
+        <div
+          key={item.type}
+          onDragStart={handleDragStart(index)}
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={handleDrop(index)}
+        >
           <Card item={item} onClick={handleCardClick}></Card>
         </div>
       ))}

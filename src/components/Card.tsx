@@ -20,7 +20,11 @@ const Card: React.FC<CardProps> = ({ item, onClick }) => {
   const handleImageLoad = () => setLoading(false);
 
   return (
-    <div className="card" onClick={() => onClick(thumbnailMap[item.type])}>
+    <div
+      className="card"
+      onClick={() => onClick(thumbnailMap[item.type])}
+      draggable
+    >
       <h3>{item.title}</h3>
       {loading && <div className="spinner"> Loading...</div>}
       <img
