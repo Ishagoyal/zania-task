@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CardItem } from "../types";
+import "../styles.css";
 
 interface CardProps {
   item: CardItem;
@@ -26,6 +27,7 @@ const Card: React.FC<CardProps> = ({ item, onClick }) => {
         src={thumbnailMap[item.type]}
         alt={item.title}
         onLoad={handleImageLoad}
+        style={{ display: loading ? "none" : "block" }}
       ></img>
     </div>
   );

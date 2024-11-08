@@ -17,7 +17,7 @@ const CardGrid: React.FC = () => {
     setOverlayImage(image);
   };
   return (
-    <div className="cardGrid">
+    <div className="card-grid">
       {data.map((item, index) => (
         <div>
           <Card item={item} onClick={handleCardClick}></Card>
