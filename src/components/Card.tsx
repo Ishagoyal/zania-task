@@ -10,11 +10,11 @@ const Card: React.FC<CardProps> = ({ item, onClick }) => {
   const [loading, setLoading] = useState(true);
 
   const thumbnailMap: { [key: string]: string } = {
-    "bank-draft": "public/images/cat-pet-animal-domestic-104827.jpeg",
-    "bill-of-lading": "public/images/kitty-cat-kitten-pet-45201 (1).jpeg",
-    invoice: "public/images/pexels-photo-982865.jpeg",
-    "bank-draft-2": "public/images/pexels-photo-1056251.jpeg",
-    "bill-of-lading-2": "public/images/pexels-photo-4587959.jpeg",
+    "bank-draft": "/images/cat-pet-animal-domestic-104827.jpeg",
+    "bill-of-lading": "/images/kitty-cat-kitten-pet-45201 (1).jpeg",
+    invoice: "/images/pexels-photo-982865.jpeg",
+    "bank-draft-2": "/images/pexels-photo-1056251.jpeg",
+    "bill-of-lading-2": "/images/pexels-photo-4587959.jpeg",
   };
 
   const handleImageLoad = () => setLoading(false);
