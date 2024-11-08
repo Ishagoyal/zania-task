@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 interface CardOverlayProps {
   image: string;
@@ -6,6 +6,15 @@ interface CardOverlayProps {
 }
 
 const CardOverlay: React.FC<CardOverlayProps> = ({ image, onClose }) => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
   return (
     <div className="overlay" onClick={onClose}>
       <img src={image} alt="Document"></img>

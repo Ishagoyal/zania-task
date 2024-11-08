@@ -1,7 +1,12 @@
 import "./App.css";
+import CardGrid from "./components/CardGrid";
 
 function App() {
-  return <div></div>;
+  return (
+    <div>
+      <CardGrid></CardGrid>
+    </div>
+  );
 }
 
 export default App;
