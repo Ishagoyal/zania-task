@@ -2,26 +2,31 @@
     {
         "type": "bank-draft",
         "title": "Bank Draft",
-        "position": 0
+        "position": 0,
+        "thumbnail": "public/images/cat-pet-animal-domestic-104827.jpeg"
     },
     {
         "type": "bill-of-lading",
         "title": "Bill of Lading",
-        "position": 1
+        "position": 1,
+        "thumbnail": "public/images/kitty-cat-kitten-pet-45201 (1).jpeg"
     },
     {
         "type": "invoice",
         "title": "Invoice",
-        "position": 2
+        "position": 2,
+        "thumbnail": "public/images/pexels-photo-982865.jpeg"
     },
     {
         "type": "bank-draft-2",
         "title": "Bank Draft 2",
-        "position": 3
+        "position": 3,
+        "thumbnail": "public/images/pexels-photo-1056251.jpeg"
     },
     {
         "type": "bill-of-lading-2",
         "title": "Bill of Lading 2",
-        "position": 4
+        "position": 4,
+        "thumbnail": "public/images/pexels-photo-4587959.jpeg"
     }
 ]
