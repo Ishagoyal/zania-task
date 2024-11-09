@@ -9,6 +9,7 @@ const CardGrid: React.FC = () => {
   const [data, setData] = useState<CardItem[]>([]);
   const [overlayImage, setOverlayImage] = useState<string | null>(null);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [dropTargetIndex, setDropTargetIndex] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
@@ -84,6 +85,23 @@ const CardGrid: React.FC = () => {
   const handleDragEnd = () => {
     setIsDragging(false);
     setDragIndex(null);
+    setDropTargetIndex(null);
+  };
+
+  const handleDragEnter =
+    (index: number) => (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      if (dragIndex !== null && dragIndex !== index) {
+        setDropTargetIndex(index);
+      }
+    };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    // Only reset if we're leaving the card container, not entering a child element
+    if (e.currentTarget.contains(e.relatedTarget as Node)) {
+      return;
+    }
+    setDropTargetIndex(null);
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -95,8 +113,8 @@ const CardGrid: React.FC = () => {
     (dropIndex: number) => (e: React.DragEvent<HTMLDivElement>) => {
       e.preventDefault();
 
-      // Ensure we have a valid drag operation
       if (dragIndex === null || dragIndex === dropIndex) {
+        setDropTargetIndex(null);
         return;
       }
 
@@ -104,7 +122,6 @@ const CardGrid: React.FC = () => {
       const updatedData = [...data];
       const [draggedCard] = updatedData.splice(dragIndex, 1);
       updatedData.splice(dropIndex, 0, draggedCard);
-
       // Update positions
       const reorderedData = updatedData.map((card, index) => ({
         ...card,
@@ -114,12 +131,25 @@ const CardGrid: React.FC = () => {
       setData(reorderedData);
       setHasChanges(true);
       setDragIndex(null);
+      setDropTargetIndex(null);
       setIsDragging(false);
     };
 
   const timeSinceLastSave = lastSaveTime
     ? `${Math.floor((Date.now() - lastSaveTime.getTime()) / 1000)} seconds ago`
     : "Never";
+
+  const getCardClassName = (index: number) => {
+    let className = "card-container";
+    if (isDragging) {
+      if (index === dragIndex) {
+        className += " dragging";
+      } else if (index === dropTargetIndex) {
+        className += " drop-target";
+      }
+    }
+    return className;
+  };
 
   return (
     <div className="card-grid-container">
@@ -136,10 +166,12 @@ const CardGrid: React.FC = () => {
         {data.map((item, index) => (
           <div
             key={`${item.type}-${index}`}
-            className="card-container"
+            className={getCardClassName(index)}
             draggable={true}
             onDragStart={handleDragStart(index)}
             onDragEnd={handleDragEnd}
+            onDragEnter={handleDragEnter(index)}
+            onDragLeave={handleDragLeave}
             onDragOver={handleDragOver}
             onDrop={handleDrop(index)}
           >
@@ -147,6 +179,7 @@ const CardGrid: React.FC = () => {
               item={item}
               onClick={handleCardClick}
               isDragging={dragIndex === index}
+              isDropTarget={dropTargetIndex === index}
             />
           </div>
         ))}
@@ -160,7 +193,7 @@ const CardGrid: React.FC = () => {
           className="add-card-button"
           onClick={() =>
             addCard({
-              type: `new-card-${Date.now()}`, // Ensure unique type
+              type: `new-card-${Date.now()}`,
               title: "New Card",
               position: data.length,
             })

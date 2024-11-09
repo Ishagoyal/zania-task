@@ -124,20 +124,63 @@
     transform: rotate(360deg);
   }
 }
-
 .card-container {
+  position: relative;
   cursor: grab;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, outline 0.2s ease;
 }
 
 .card-container:active {
   cursor: grabbing;
 }
 
-.dragging .card-container {
-  opacity: 0.6;
+/* Drop target styling */
+.card-container.drop-target {
+  position: relative;
 }
 
-.dragging .card-container[draggable="true"] {
-  opacity: 1;
+.card-container.drop-target::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 2px dashed #4a90e2;
+  border-radius: 8px;
+  background-color: rgba(74, 144, 226, 0.1);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.card-container.drop-target::after {
+  content: '↓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  color: #4a90e2;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Dragging card styling */
+.card-container.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+
+/* Prevent drop indicators on the dragged card */
+.card-container.dragging.drop-target::before,
+.card-container.dragging.drop-target::after {
+  display: none;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.card-container.drop-target::before,
+.card-container.drop-target::after {
+  animation: pulse 1.5s ease-in-out infinite;
 }
