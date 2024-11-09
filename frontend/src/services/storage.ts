@@ -9,27 +9,25 @@ export interface Card {
 const STORAGE_KEY = "cardsData";
 
 // Load cards data from localStorage, or fetch from data.json if not found
-export const loadCardsData = (): Card[] => {
+export const loadCardsData = async (): Promise<Card[]> => {
   const storedData = localStorage.getItem(STORAGE_KEY);
-
   if (storedData) {
+    return JSON.parse(storedData);
+  } else {
+    // If no data is found in localStorage, fetch from data.json
     try {
-      return JSON.parse(storedData);
+      const response = await fetch("/data.json");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      saveCardsData(data); // Save the fetched data to localStorage
+      return data; // Return the fetched data
     } catch (error) {
-      console.error("Error parsing data from localStorage:", error);
-      return [];
+      console.error("Error fetching initial data:", error);
+      return []; // Return an empty array if fetching fails
     }
   }
-
-  // If no data found in localStorage, fetch from data.json
-  fetch("/data.json")
-    .then((response) => response.json())
-    .then((data) => {
-      saveCardsData(data); // Save the fetched data to localStorage
-    })
-    .catch((error) => console.error("Error fetching initial data:", error));
-
-  return []; // Return empty array while waiting for fetch
 };
 
 // Save cards data to localStorage
@@ -42,15 +40,15 @@ export const saveCardsData = (data: Card[]): void => {
 };
 
 // Add a card to localStorage
-export const addCard = (newCard: Card): void => {
-  const currentData = loadCardsData();
+export const addCard = async (newCard: Card): Promise<void> => {
+  const currentData = await loadCardsData();
   currentData.push(newCard);
   saveCardsData(currentData);
 };
 
 // Update an existing card
-export const updateCard = (updatedCard: Card): void => {
-  const currentData = loadCardsData();
+export const updateCard = async (updatedCard: Card): Promise<void> => {
+  const currentData = await loadCardsData();
   const index = currentData.findIndex(
     (card) => card.position === updatedCard.position
   );
@@ -61,8 +59,8 @@ export const updateCard = (updatedCard: Card): void => {
 };
 
 // Delete a card from localStorage
-export const deleteCard = (position: number): void => {
-  const currentData = loadCardsData();
+export const deleteCard = async (position: number): Promise<void> => {
+  const currentData = await loadCardsData();
   const updatedData = currentData.filter((card) => card.position !== position);
   saveCardsData(updatedData);
 };

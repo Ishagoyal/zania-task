@@ -17,14 +17,13 @@ const CardGrid: React.FC = () => {
 
   const saveInterval = useRef<number | null>(null);
 
-  // Effect to automatically save changes every 5 seconds if there are unsaved changes
   useEffect(() => {
     fetch("/api/cards")
       .then((response) => response.json())
       .then(setData);
   }, []);
 
-  // Save data function
+  // Effect to automatically save changes every 5 seconds if there are unsaved changes
   useEffect(() => {
     if (saveInterval.current) clearInterval(saveInterval.current);
     saveInterval.current = setInterval(() => {
