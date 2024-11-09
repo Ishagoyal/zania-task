@@ -55,11 +55,6 @@ const CardGrid: React.FC = () => {
       });
   };
 
-  const addCard = (newCard: CardItem) => {
-    setData((prevData) => [...prevData, newCard]);
-    setHasChanges(true); // Mark changes as unsaved
-  };
-
   const handleCardClick = (image: string) => {
     if (!isDragging) {
       setOverlayImage(image);
@@ -188,18 +183,6 @@ const CardGrid: React.FC = () => {
             onClose={() => setOverlayImage(null)}
           />
         )}
-        <button
-          className="add-card-button"
-          onClick={() =>
-            addCard({
-              type: `new-card-${Date.now()}`,
-              title: "New Card",
-              position: data.length,
-            })
-          }
-        >
-          Add Card
-        </button>
       </div>
     </div>
   );
