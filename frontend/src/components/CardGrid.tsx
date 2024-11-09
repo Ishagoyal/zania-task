@@ -74,7 +74,7 @@ const CardGrid: React.FC = () => {
       const [drageedCard] = updatedData.splice(draggedIndex, 1);
       updatedData.splice(cardIndex, 0, drageedCard);
       setData(updatedData);
-      setHasChanges(true);
+      setHasChanges(true); // Mark changes as unsaved
     };
   };
 

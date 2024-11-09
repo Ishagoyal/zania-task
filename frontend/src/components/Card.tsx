@@ -9,6 +9,7 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ item, onClick }) => {
   const [loading, setLoading] = useState(true);
 
+  // Thumbnail mapping 
   const thumbnailMap: { [key: string]: string } = {
     "bank-draft": "/images/cat-pet-animal-domestic-104827.jpeg",
     "bill-of-lading": "/images/kitty-cat-kitten-pet-45201 (1).jpeg",

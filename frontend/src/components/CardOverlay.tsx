@@ -6,6 +6,7 @@ interface CardOverlayProps {
 }
 
 const CardOverlay: React.FC<CardOverlayProps> = ({ image, onClose }) => {
+  // Use Effect for handling escape key functionality
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -15,6 +16,7 @@ const CardOverlay: React.FC<CardOverlayProps> = ({ image, onClose }) => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
+
   return (
     <div className="overlay" onClick={onClose}>
       <img src={image} alt="Document"></img>
