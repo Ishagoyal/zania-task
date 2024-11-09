@@ -124,3 +124,20 @@
     transform: rotate(360deg);
   }
 }
+
+.card-container {
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+.card-container:active {
+  cursor: grabbing;
+}
+
+.dragging .card-container {
+  opacity: 0.6;
+}
+
+.dragging .card-container[draggable="true"] {
+  opacity: 1;
+}

@@ -5,8 +5,9 @@ import "../styles.css";
 interface CardProps {
   item: CardItem;
   onClick: (image: string) => void;
+  isDragging?: boolean;
 }
-const Card: React.FC<CardProps> = ({ item, onClick }) => {
+const Card: React.FC<CardProps> = ({ item, onClick, isDragging }) => {
   const [loading, setLoading] = useState(true);
 
   // Thumbnail mapping
@@ -22,7 +23,7 @@ const Card: React.FC<CardProps> = ({ item, onClick }) => {
 
   return (
     <div
-      className="card"
+      className={`card ${isDragging ? "dragging" : ""}`}
       onClick={() => onClick(thumbnailMap[item.type])}
       draggable
     >
