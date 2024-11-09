@@ -3,6 +3,7 @@ import { CardItem } from "../types";
 import Card from "./Card";
 import CardOverlay from "./CardOverlay";
 import "../styles.css";
+import SavingOverlay from "./SavingOverlay";
 
 const CardGrid: React.FC = () => {
   const [data, setData] = useState<CardItem[]>([]);
@@ -116,11 +117,7 @@ const CardGrid: React.FC = () => {
       {/* Display loading spinner with "Saving..." message while saving */}
       <div className="save-info">
         {isSaving ? (
-          <div className="loading-spinner">
-            <span>Saving...</span>
-            {/* Spinner element */}
-            <div className="spinner"></div>
-          </div>
+          <SavingOverlay isSaving={isSaving} />
         ) : (
           <span>Last saved: {timeSinceLastSave}</span>
         )}
