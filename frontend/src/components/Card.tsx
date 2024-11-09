@@ -35,7 +35,7 @@ const Card: React.FC<CardProps> = ({
       onClick={() => onClick(thumbnailMap[item.type])}
       draggable
     >
-      <h3>{item.title}</h3>
+      <h3 style={{ color: "black" }}>{item.title}</h3>
       {loading && (
         <div className="loading-container">
           <div className="loading">Loading...</div>
