@@ -64,6 +64,8 @@
     width: 24px;
     height: 24px;
     animation: spin 1s linear infinite;
+    margin: auto;
+    margin-top: 24px;
   }
   
   /* Keyframes for the spinning animation */
@@ -76,4 +78,14 @@
   .save-info {
     margin-top: 20px;
     font-size: 14px;
+  }
+
+  .loading-container {
+    display: grid;
+    justify-content: center;
+    height: 200px;
+  }
+
+  .loading{
+    margin: auto;
   }

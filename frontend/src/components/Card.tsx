@@ -9,7 +9,7 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ item, onClick }) => {
   const [loading, setLoading] = useState(true);
 
-  // Thumbnail mapping 
+  // Thumbnail mapping
   const thumbnailMap: { [key: string]: string } = {
     "bank-draft": "/images/cat-pet-animal-domestic-104827.jpeg",
     "bill-of-lading": "/images/kitty-cat-kitten-pet-45201 (1).jpeg",
@@ -27,7 +27,12 @@ const Card: React.FC<CardProps> = ({ item, onClick }) => {
       draggable
     >
       <h3>{item.title}</h3>
-      {loading && <div className="spinner"> Loading...</div>}
+      {loading && (
+        <div className="loading-container">
+          <div className="loading">Loading...</div>
+          <div className="spinner"> </div>
+        </div>
+      )}
       <img
         src={thumbnailMap[item.type]}
         alt={item.title}
